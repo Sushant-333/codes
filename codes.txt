@@ -1,0 +1,931 @@
+BFS
+
+graph = {
+  '5' : ['3','7'],
+  '3' : ['2', '4'],
+  '7' : ['8'],
+  '2' : [],
+  '4' : [],
+  '8' : []
+}
+
+visited = []
+queue = []
+
+def bfs(visited, graph, node):
+  visited.append(node)
+  queue.append(node)
+
+  while queue:  
+    m = queue.pop(0) 
+    print (m, end = " ") 
+
+    for neighbour in graph[m]:
+      if neighbour not in visited:
+        visited.append(neighbour)
+        queue.append(neighbour)
+
+print("Following is the Breadth-First Search")
+bfs(visited, graph, '5')
+
+
+recursive BFS
+
+
+from collections import deque
+
+Graph = {
+	'A':['B','C'],
+	'B':['A','D'],
+	'C':['A','D','E'],
+	'D':['B','C','E'],
+	'E':['C','D']
+}
+
+start_node = 'A' #root node
+
+# keep track of visited elements
+visited = set([start_node])
+
+#queue for storing neighbours to visit in order
+queue = deque([start_node])
+
+# bfs function
+def bfs(Graph, visited, queue):
+	# if queue is empty means all vertices are visited
+	if not queue:
+		return 
+		
+	# else case pop element from queue and explore its neighbour
+	vertex = queue.popleft()
+	print(vertex)
+	
+	#for each neighbour of vertex
+	for neighbour in Graph[vertex]:
+		#if it is not visited already then add it to visited and queue
+		if neighbour not in visited:
+			visited.add(neighbour)
+			queue.append(neighbour)
+			
+	#recursive call
+	bfs(Graph, visited, queue)
+	
+bfs(Graph, visited, queue)
+		
+		
+		
+		
+DFS
+
+
+graph = {
+  '5' : ['3','7'],
+  '3' : ['2', '4'],
+  '7' : ['8'],
+  '2' : [],
+  '4' : ['8'],
+  '8' : []
+}
+visited = set() 
+def dfs(visited, graph, node):  
+    if node not in visited:
+        print (node)
+        visited.add(node)
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
+print("Following is the Depth-First Search")
+dfs(visited, graph, '5')
+
+
+A star
+
+
+def aStarAlgo(start_node, stop_node):
+         
+        open_set = set(start_node) 
+        closed_set = set()
+        g = {} 
+        parents = {}
+ 
+        g[start_node] = 0
+
+        parents[start_node] = start_node
+         
+         
+        while len(open_set) > 0:
+            n = None
+ 
+            for v in open_set:
+                if n == None or g[v] + heuristic(v) < g[n] + heuristic(n):
+                    n = v
+             
+                     
+            if n == stop_node or Graph_nodes[n] == None:
+                pass
+            else:
+                for (m, weight) in get_neighbors(n):
+
+                    if m not in open_set and m not in closed_set:
+                        open_set.add(m)
+                        parents[m] = n
+                        g[m] = g[n] + weight
+                         
+
+                    else:
+                        if g[m] > g[n] + weight:
+                            g[m] = g[n] + weight
+                            parents[m] = n
+                             
+                            if m in closed_set:
+                                closed_set.remove(m)
+                                open_set.add(m)
+ 
+            if n == None:
+                print('Path does not exist!')
+                return None
+ 
+
+            if n == stop_node:
+                path = []
+ 
+                while parents[n] != n:
+                    path.append(n)
+                    n = parents[n]
+ 
+                path.append(start_node)
+ 
+                path.reverse()
+ 
+                print('Path found: {}'.format(path))
+                return path
+ 
+ 
+            open_set.remove(n)
+            closed_set.add(n)
+ 
+        print('Path does not exist!')
+        return None
+         
+def get_neighbors(v):
+    if v in Graph_nodes:
+        return Graph_nodes[v]
+    else:
+        return None
+def heuristic(n):
+        H_dist = {
+            'A': 11,
+            'B': 6,
+            'C': 99,
+            'D': 1,
+            'E': 7,
+            'G': 0,
+             
+        }
+ 
+        return H_dist[n]
+ 
+Graph_nodes = {
+    'A': [('B', 2), ('E', 3)],
+    'B': [('C', 1),('G', 9)],
+    'C': None,
+    'E': [('D', 6)],
+    'D': [('G', 1)],
+     
+}
+aStarAlgo('A', 'G')
+
+
+selectin sort
+
+
+A = [64, 25, 12, 22, 11]
+
+for i in range(len(A)):
+    min_idx = i
+    for j in range(i+1, len(A)):
+        if A[min_idx] > A[j]:
+            min_idx = j
+    A[i], A[min_idx] = A[min_idx], A[i]
+    
+print ("Sorted array : ")
+for i in range(len(A)):
+    print("%d" %A[i],end=" ")
+    
+    
+job shceduling
+
+
+def printJobScheduling(arr, t):
+    n = len(arr)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if arr[j][2] < arr[j + 1][2]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    result = [False] * t
+    job = ['-1'] * t
+    for i in range(len(arr)):
+        for j in range(min(t - 1, arr[i][1] - 1), -1, -1):
+            if result[j] is False:
+                result[j] = True
+                job[j] = arr[i][0]
+                break
+    print(job)
+
+if __name__ == '__main__':
+    arr = [['a', 2, 100],
+              ['b', 1, 19],
+              ['c', 2, 27],
+              ['d', 1, 25],
+              ['e', 3, 15]]
+ 
+
+    print("Following is maximum profit sequence of jobs")
+    printJobScheduling(arr, 3)
+    
+    
+prims
+
+
+INF = 9999999
+N = 4
+G = [[0, 5, 8, 4],
+        [5, 0, 6, 7],
+        [8, 6, 0, 2],
+        [4, 7, 2, 0]]
+selected_node = [0, 0, 0, 0, 0]
+no_edge = 0
+selected_node[0] = True
+print("Edge : Weight\n")
+while (no_edge < N - 1):
+    minimum = INF
+    a = 0
+    b = 0
+    for m in range(N):
+        if selected_node[m]:
+            for n in range(N):
+                if ((not selected_node[n]) and G[m][n]): 
+                    if minimum > G[m][n]:
+                        minimum = G[m][n]
+                        a = m
+                        b = n
+    print(str(a) + "-" + str(b) + ":" + str(G[a][b]))
+    selected_node[b] = True
+    no_edge += 1
+
+
+'''
+
+G = [[0, 19, 5, 0, 0],
+    [19, 0, 5, 9, 2],
+    [5, 5, 0, 1, 6],
+    [0, 9, 1, 0, 1],
+    [0, 2, 6, 1, 0]]
+'''
+
+
+kruskal's
+
+
+class Graph:
+    def __init__(self, vertex):
+        self.V = vertex
+        self.graph = []
+
+    def add_edge(self, u, v, w):
+        self.graph.append([u, v, w])
+
+    def search(self, parent, i):
+        if parent[i] == i:
+            return i
+        return self.search(parent, parent[i])
+
+    def apply_union(self, parent, rank, x, y):
+        xroot = self.search(parent, x)
+        yroot = self.search(parent, y)
+        if rank[xroot] < rank[yroot]:
+            parent[xroot] = yroot
+        elif rank[xroot] > rank[yroot]:
+            parent[yroot] = xroot
+        else:
+            parent[yroot] = xroot
+            rank[xroot] += 1
+
+    def kruskal(self):
+        result = []
+        i, e = 0, 0
+        self.graph = sorted(self.graph, key=lambda item: item[2])
+        parent = []	
+        rank = []
+        for node in range(self.V):
+            parent.append(node)
+            rank.append(0)
+        while e < self.V - 1:
+            u, v, w = self.graph[i]
+            i = i + 1
+            x = self.search(parent, u)
+            y = self.search(parent, v)
+            if x != y:
+                e = e + 1
+                result.append([u, v, w])
+                self.apply_union(parent, rank, x, y)
+        for u, v, weight in result:
+            print("Edge:",u, v,end =" ")
+            print("-",weight)
+
+g = Graph(4)
+g.add_edge(0, 1, 5)
+g.add_edge(0, 3, 4)
+g.add_edge(0, 2, 8)
+g.add_edge(1, 2, 6)
+g.add_edge(1, 3, 7)
+g.add_edge(2, 3, 2)
+g.kruskal()
+
+
+'''
+
+g = Graph(5)
+g.add_edge(0, 1, 8)
+g.add_edge(0, 2, 5)
+g.add_edge(1, 2, 9)
+g.add_edge(1, 3, 11)
+g.add_edge(2, 3, 15)
+g.add_edge(2, 4, 10)
+g.add_edge(3, 4, 7)
+'''
+
+
+djkstra
+
+
+class Graph():
+	def __init__(self, vertices):
+		self.V = vertices
+		self.graph = [[0 for column in range(vertices)]
+					for row in range(vertices)]
+
+	def printSolution(self, dist):
+		print("Vertex \t Distance from Source")
+		for node in range(self.V):
+			print(node, "\t\t", dist[node])
+
+	def minDistance(self, dist, sptSet):
+		min = 1e7
+		for v in range(self.V):
+			if dist[v] < min and sptSet[v] == False:
+				min = dist[v]
+				min_index = v
+		return min_index
+
+	def dijkstra(self, src):
+		dist = [1e7] * self.V
+		dist[src] = 0
+		sptSet = [False] * self.V
+		for cout in range(self.V):
+			u = self.minDistance(dist, sptSet)
+			sptSet[u] = True
+			for v in range(self.V):
+				if (self.graph[u][v] > 0 and
+				sptSet[v] == False and
+				dist[v] > dist[u] + self.graph[u][v]):
+					dist[v] = dist[u] + self.graph[u][v]
+		self.printSolution(dist)
+g = Graph(4)
+g.graph = [[0, 5, 8, 4],
+		[5, 0, 6, 7],
+		[8, 6, 0, 2],
+		[4, 7, 2, 0]]
+g.dijkstra(0)
+
+
+
+'''
+g = Graph(9)
+g.graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+		[4, 0, 8, 0, 0, 0, 0, 11, 0],
+		[0, 8, 0, 7, 0, 4, 0, 0, 2],
+		[0, 0, 7, 0, 9, 14, 0, 0, 0],
+		[0, 0, 0, 9, 0, 10, 0, 0, 0],
+		[0, 0, 4, 14, 10, 0, 2, 0, 0],
+		[0, 0, 0, 0, 0, 2, 0, 1, 6],
+		[8, 11, 0, 0, 0, 0, 1, 0, 7],
+		[0, 0, 2, 0, 0, 0, 6, 7, 0]
+		]
+
+'''
+
+
+n queens
+
+
+# Python function to solve the
+# N Queen Problem
+
+# Function to print the solution.
+def printSolution(board, N):
+    # It is similar to printing the 2-d array.
+    for i in range(N):
+        for j in range(N):
+            print(board[i][j], end =" ")
+        
+        print()
+
+# Function to check if it is safe to place 
+# queen in the cell (row, col) such that 
+# it does not attack any other queen.
+def isSafe (board, row, col, N):
+    # Defining and initializing i and j with row 
+    # and col respectively.
+    i, j = row, col
+
+    # Checking if the left (main) diagonal has 
+    # any queen.
+    while (i > -1 and j > -1):
+        # If a queen is found, return 'false'
+        # that means it is not safe to place a queen.
+        if (board[i][j] == 'Q'):
+            return False
+
+        # Updating values of i and j
+        i -= 1
+        j -= 1
+    
+
+    i, j = row, col
+    # Checking if the right (secondary) diagonal has 
+    # any queen.
+    while (i > -1 and j < N):
+        # If a queen is found, return 'false'
+        # that means it is not safe to place a queen.
+        if (board[i][j] == 'Q'):
+            return False
+
+        # Updating values of i and j
+        i -= 1
+        j += 1
+    
+    i, j = row, col
+    # Checking if the columns (col) has 
+    # any queen.
+    while (i > -1):
+        # If a queen is found, return 'false'
+        # that means it is not safe to place a queen.
+        if (board[i][j] == 'Q'):
+            return False
+
+        # Updating values of i and j
+        i -= 1
+    
+    # If we have reached here, it means it is safe
+    # to place the queen in the cell (row, col)
+    # Hence, returning true
+    return True
+
+
+# Function to check whether solution exists
+# for N queen problem, for the provided N.
+# board -> Chess Board of dimensions N*N
+# N -> Size of the chess board
+# row -> Row number in which we will try to place 
+#      the queen. It's value ranges from [0, N-1].
+def solutionExists(board, N, row):
+    # If we have placed a queen in all
+    # the rows, it means solution exists.
+    if (row >= N):
+        return True
+    
+    # Trying to place the queen in every possible
+    # cell in the 'row th' row.
+    for col in range(N):
+        # Using a function to check if it is
+        # possible to place a queen in the cell
+        # (row, col) such that it does not attack
+        # any other queen.
+        if (isSafe(board, row, col, N)):
+            # If found true, place a queen in the 
+            # cell (row, col) and recur for the
+            # next row.
+            board[row][col] = 'Q'
+            
+            if (solutionExists(board, N, row + 1)):
+                return True
+
+            # This statement will execute only if placing queen in cell (row, col) do not 
+            # form any solution. Hence, we will consider
+            # to leave this cell empty.
+            board[row][col] = '.'
+        
+    # Returning false if we do not find any valid
+    # Solution.
+    return False
+
+
+
+# Function to Solve the NQueen Problem
+def solveNQueenProblem(N):
+    # Defining the board, that will be used to print
+    # the result if a solution exists
+    board = []
+    # Initializing all its cells to be empty
+    # at first.
+    for i in range(N):
+        temp = []
+        # '.' Represents empty cell
+        for j in range(N):
+            temp.append('.')
+
+        board.append(temp)
+    
+    # If the solution do not exists
+    if (solutionExists(board, N, 0) == False):
+        print("No solution exists for N =", N)
+     
+    # Otherwise, if the solution exists.
+    else:
+        print("One of the possible solution for N =", N, "is -")
+        printSolution(board, N)
+
+# Driver Code 
+# Defining the dimension of square board.
+N = 4
+# Calling function to solve the
+# N queen problem for the given N.
+solveNQueenProblem(N)
+
+
+graph coloring problem
+
+
+
+def isSafe(graph, color):
+
+	# check for every edge
+	for i in range(4):
+		for j in range(i + 1, 4):
+			if (graph[i][j] and color[j] == color[i]):
+				return False
+	return True
+
+
+def graphColoring(graph, m, i, color):
+
+	if (i == 4):
+
+		if (isSafe(graph, color)):
+
+			printSolution(color)
+			return True
+		return False
+
+	for j in range(1, m + 1):
+		color[i] = j
+
+		if (graphColoring(graph, m, i + 1, color)):
+			return True
+		color[i] = 0
+	return False
+
+
+def printSolution(color):
+	print("Solution Exists:" " Following are the assigned colors ")
+	for i in range(4):
+		print(color[i], end=" ")
+
+
+if __name__ == '__main__':
+
+
+	graph = [
+		[0, 1, 1, 1],
+		[1, 0, 1, 0],
+		[1, 1, 0, 1],
+		[1, 0, 1, 0],
+	]
+	m = 3 
+
+
+	color = [0 for i in range(4)]
+
+	if (not graphColoring(graph, m, 0, color)):
+		print("Solution does not exist")
+
+
+
+chatbot
+
+
+def greet(bot_name, birth_year):
+    print('Hello! My name is ' + bot_name + '.')
+    print('I was created in ' + birth_year + '.')
+    
+def remind_name():
+	print('Please,remind me your name. ')
+	name = input()
+
+	print("what a great name you have, {0}!".format(name))
+
+def guess_age():
+
+	print("Let me guess your age.") 
+	print("Enter remainders of dividing your age by 3, 5 and 7")
+
+	rem3 = int(input()) 
+	rem5 = int(input())
+	rem7 = int(input())
+
+	age = (rem3 * 70 + rem5 * 21+ rem7 * 15) % 105
+
+	print("Your age is {0}; that's a good time to start programming".format(age))
+
+def count():
+
+	print(" How I will prove to you that I can count to any number you want.") 
+	num= int(input())
+
+	counter = 0
+
+	while counter <= num:
+
+		print("{0} !".format(counter))
+		counter+= 1
+
+def test():
+
+	print("Let's test your programming knowledge.")
+	print("Why do we use methods?")
+	print("1. To repeat a statement nultiple times.") 
+	print("2. To decompose a program into several small subroutines.")
+	print("3. To determine the execution time of a program.") 
+	print("4. To interrupt the execution of a program.")
+
+
+	answer = 2
+	guess = int(input())
+	while guess != answer:
+		print("Please, try again.")
+		guess = int(input())
+	print('Completed, have a nice day!')
+	print('.......................................................')
+
+
+def end():
+	print("Congratulations, have a nice day!")
+	print('.......................................................')
+
+	input()
+
+greet('Sbot','2021') # change it as you need
+remind_name()
+guess_age() 
+count()
+test() 
+end()
+
+
+Hospital expert system
+
+
+que = ["do you have cough ?",
+       "do you have fever ?",
+       "do you have swor-Throat ?",
+       "do you have cold ?",
+       "do you have headache ?"]
+
+print("Welcome to the expert System of Hospital Management : ")
+
+sc = 0
+for i in que:
+    print(i,end = " ")
+    ans = input("y/s : ")
+    if ans=='y':
+        print("please scale the symptoms in the range of 1 to 10",end=" ")
+        score = int(input("Enter Scale"))
+        print()
+        sc = sc + score
+    
+    
+print("\n")
+print("your score is : ",sc)
+if sc >=30 :
+    print("You have serious condition , please meet doctor immedialtely")
+if sc >=20 and sc<30:
+    print("Your in in intermediate state ,Please take advise of medicians")
+if sc < 20 :
+    print("your are normal , you take rest, you will be fine")
+    
+    
+student information
+
+
+class student:
+    li = []  
+
+    def __init__(self, name, roll):
+        self.name = name
+        self.roll = roll
+
+    def accept(self, name, roll):
+        ob = student(name, roll)
+        student.li.append(ob)
+
+    def dis(self, ob):
+        print("Name:", ob.name, "Roll:", ob.roll)
+
+    def up(self, roll, r):
+        for i in range(len(student.li)):
+            if student.li[i].roll == roll:
+                student.li[i].roll = r
+
+
+obj = student('', 0)
+
+while True:
+    print("1. Accept")
+    print("2. Display")
+    print("3. Update")
+    print("4. Close")
+    ch = int(input("Enter your choice: "))
+
+    if ch == 1:
+        name = input("Enter name: ")
+        roll = int(input("Enter roll number: "))
+        obj.accept(name, roll)
+
+    if ch == 2:
+        for i in range(len(student.li)):
+            obj.dis(student.li[i])
+
+    if ch == 3:
+        roll = int(input("Enter roll number of student: "))
+        r = int(input("Enter updated roll: "))
+        obj.up(roll, r)
+
+    if ch == 4:
+        break
+        
+        
+hospi
+
+
+# Define the knowledge base as a set of rules
+knowledge_base = {
+    "Rule 1": {
+        "conditions": {
+            "symptom": "fever",
+            "duration": "long"
+        },
+        "action": "Recommend further investigation for possible infection."
+    },
+    "Rule 2": {
+        "conditions": {
+            "symptom": "cough",
+            "duration": "short"
+        },
+        "action": "Suggest over-the-counter cough medicine."
+    },
+    # Add more rules as needed
+}
+
+# Function to match conditions and execute corresponding actions
+def execute_expert_system(symptom, duration):
+    for rule_name, rule_data in knowledge_base.items():
+        conditions = rule_data["conditions"]
+        if conditions["symptom"] == symptom and conditions["duration"] == duration:
+            return rule_data["action"]
+    return "No matching rule found."
+
+# Example usage
+symptom = "fever"
+duration = "long"
+action = execute_expert_system(symptom, duration)
+print("Expert System:", action)
+
+
+Information
+
+
+# Define the knowledge base as a set of rules
+knowledge_base = {
+    "Rule 1": {
+        "conditions": {
+            "input": "search",
+            "type": "document"
+        },
+        "action": "Retrieve the requested document from the database."
+    },
+    "Rule 2": {
+        "conditions": {
+            "input": "store",
+            "type": "document"
+        },
+        "action": "Store the document in the appropriate location in the database."
+    },
+    "Rule 3": {
+        "conditions": {
+            "input": "delete",
+            "type": "document"
+        },
+        "action": "Remove the document from the database."
+    },
+    # Add more rules as needed
+}
+
+# Function to match conditions and execute corresponding actions
+def execute_expert_system(input_data, type_data):
+    for rule_name, rule_data in knowledge_base.items():
+        conditions = rule_data["conditions"]
+        if conditions["input"] == input_data and conditions["type"] == type_data:
+            return rule_data["action"]
+    return "No matching rule found."
+
+# Main loop to interact with the expert system
+while True:
+    user_input = input("User: ")
+    user_input = user_input.lower().split()
+
+    if len(user_input) == 2:
+        action = execute_expert_system(user_input[0], user_input[1])
+        print("Expert System:", action)
+    else:
+        print("Expert System: Please provide both input and type (e.g., search document).")
+        
+        
+Employee
+
+
+# Define the knowledge base as a set of rules
+knowledge_base = {
+    "Rule 1": {
+        "conditions": {
+            "key_result_areas": ["Quality", "Timeliness"],
+            "competencies": ["Communication", "Problem Solving"],
+            "rating": "Excellent"
+        },
+        "action": "Employee performance is excellent."
+    },
+    "Rule 2": {
+        "conditions": {
+            "key_result_areas": ["Quantity", "Customer Satisfaction"],
+            "competencies": ["Teamwork", "Adaptability"],
+            "rating": "Good"
+        },
+        "action": "Employee performance is good."
+    },
+    # Add more rules as needed
+}
+
+# Function to match conditions and execute corresponding actions
+def evaluate_performance(key_result_areas, competencies, rating):
+    for rule_name, rule_data in knowledge_base.items():
+        conditions = rule_data["conditions"]
+        if (set(conditions["key_result_areas"]) == set(key_result_areas) and
+                set(conditions["competencies"]) == set(competencies) and
+                conditions["rating"] == rating):
+            return rule_data["action"]
+    return "No matching rule found."
+
+# Example usage
+key_result_areas = ["Quality", "Timeliness"]
+competencies = ["Communication", "Problem Solving"]
+rating = "Excellent"
+action = evaluate_performance(key_result_areas, competencies, rating)
+print("Expert System:", action)
+
+
+trading 
+
+
+# Define the knowledge base as a set of rules
+knowledge_base = {
+    "Rule 1": {
+        "conditions": {
+            "current_price": 100,
+            "moving_average": 90
+        },
+        "action": "Buy"
+    },
+    "Rule 2": {
+        "conditions": {
+            "current_price": 120,
+            "moving_average": 150
+        },
+        "action": "Sell"
+    },
+    # Add more rules as needed
+}
+
+# Function to match conditions and execute corresponding actions
+def execute_expert_system(current_price, moving_average):
+    for rule_name, rule_data in knowledge_base.items():
+        conditions = rule_data["conditions"]
+        if conditions["current_price"] == current_price and conditions["moving_average"] == moving_average:
+            return rule_data["action"]
+    return "No matching rule found."
+
+# Example usage
+current_price = 110
+moving_average = 100
+action = execute_expert_system(current_price, moving_average)
+print("Expert System:", action)
